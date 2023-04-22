@@ -1,15 +1,15 @@
 import { useRouter } from 'next/router'
 
 const SelectedClientProjectPage = () => {
-    const router = useRouter()
+  const router = useRouter()
 
-    console.log(router.query)
+  console.log(router.query)
 
-    return (
-        <div>
-            <h1>Selected Client Project Page</h1>
-        </div>
-    )
+  return (
+    <div>
+      <h1>Selected Client Project Page</h1>
+    </div>
+  )
 }
 
 export default SelectedClientProjectPage
