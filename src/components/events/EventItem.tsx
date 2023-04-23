@@ -1,25 +1,34 @@
 import { Event } from '@/types/eventTypes'
+import Link from 'next/link'
 
 interface EventProps {
   event: Event
 }
 
 const EventItem = ({ event }: EventProps) => {
+  const { title, image, date, location, id } = event
+  const humanReadableDate = new Date(date).toLocaleDateString('en-US', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  })
+  const formattedAddress = location.replace(', ', '\n')
+  const exploreLink = `/events/${id}`
   return (
     <li>
-      <img src={event.image} alt={event.title} />
+      <img src={'/' + image} alt={title} />
       <div>
         <div>
-          <h2>{event.title}</h2>
+          <h2>{title}</h2>
           <div>
-            <time>{event.date}</time>
+            <time>{humanReadableDate}</time>
           </div>
           <div>
-            <address>{event.location}</address>
+            <address>{formattedAddress}</address>
           </div>
         </div>
         <div>
-          <button>Explore Event</button>
+          <Link href={exploreLink}>Explore Event</Link>
         </div>
       </div>
     </li>
