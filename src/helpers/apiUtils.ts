@@ -1,4 +1,6 @@
-export const getAllEvents = async () => {
+import { Event } from '@/types/eventTypes'
+
+export const getAllEvents = async (): Promise<Event[]> => {
   const res = await fetch(
     'https://nextjs-course-project-4cea1-default-rtdb.firebaseio.com/events.json'
   )

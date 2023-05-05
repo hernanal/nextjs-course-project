@@ -1,6 +1,7 @@
 import EventList from '@/components/events/EventList'
 import { getFeaturedEvents } from '@/helpers/apiUtils'
 import { Event } from '@/types/eventTypes'
+import { GetStaticProps } from 'next'
 
 interface HomePageProps {
   events: Event[]
@@ -15,7 +16,7 @@ const HomePage = (props: HomePageProps) => {
   )
 }
 
-export async function getStaticProps() {
+export const getStaticProps: GetStaticProps = async () => {
   const featuredEvents = await getFeaturedEvents()
 
   return {
