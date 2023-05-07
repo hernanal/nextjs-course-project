@@ -3,6 +3,7 @@ import EventsSearch from '@/components/events/EventsSearch'
 import { getAllEvents } from '@/helpers/apiUtils'
 import { useRouter } from 'next/router'
 import { Event } from '@/types/eventTypes'
+import Head from 'next/head'
 
 interface EventsPageProps {
   events: Event[]
@@ -17,6 +18,10 @@ const EventsPage = (props: EventsPageProps) => {
 
   return (
     <div>
+      <Head key="events-page-head">
+        <title>All Events</title>
+        <meta name="description" content="Find a list of all events here." />
+      </Head>
       <EventsSearch onSearch={findEventsHandler} />
       <EventList events={props.events} />
     </div>

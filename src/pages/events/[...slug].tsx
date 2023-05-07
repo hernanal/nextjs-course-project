@@ -9,6 +9,7 @@ import classes from '@/components/ui/error-alert.module.css'
 import { useRouter } from 'next/router'
 import useSWR from 'swr'
 import { useEffect, useState } from 'react'
+import Head from 'next/head'
 /**
  * This page will only be rendered if there is more than one dynamic path param pass in
  * I.e. events/1/2
@@ -100,6 +101,13 @@ const FilteredEventsPage = (/* props: FilteredEventsPageProps */) => {
 
   return (
     <>
+      <Head key="filtered-events-page-head">
+        <title>Filtered Events</title>
+        <meta
+          name="description"
+          content={`All events for ${filteredMonth}/${filteredYear}`}
+        />
+      </Head>
       <ResultsTitle date={new Date(filteredYear, filteredMonth - 1)} />
       <EventList events={filteredEvents} />
     </>

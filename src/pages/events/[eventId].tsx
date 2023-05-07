@@ -5,6 +5,7 @@ import { getEventById } from '@/dummy-data'
 import { getFeaturedEvents } from '@/helpers/apiUtils'
 import { Event } from '@/types/eventTypes'
 import { GetStaticProps, GetStaticPropsContext } from 'next'
+import Head from 'next/head'
 
 interface EventDetailPageProps {
   event: Event
@@ -23,6 +24,10 @@ const EventDetailPage = (props: EventDetailPageProps) => {
 
   return (
     <>
+      <Head key="event-detail-page-head">
+        <title>{event.title}</title>
+        <meta name="description" content={event.description} />
+      </Head>
       <EventSummary title={event.title} />
       <EventLogistics
         date={event.date}
