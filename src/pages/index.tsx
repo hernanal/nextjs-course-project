@@ -2,6 +2,7 @@ import EventList from '@/components/events/EventList'
 import { getFeaturedEvents } from '@/helpers/apiUtils'
 import { Event } from '@/types/eventTypes'
 import { GetStaticProps } from 'next'
+import Head from 'next/head'
 
 interface HomePageProps {
   events: Event[]
@@ -11,6 +12,13 @@ const HomePage = (props: HomePageProps) => {
   const { events } = props
   return (
     <div>
+      <Head>
+        <title>Events Home</title>
+        <meta
+          name="description"
+          content="Find a list of featured events here."
+        />
+      </Head>
       <EventList events={events} />
     </div>
   )
