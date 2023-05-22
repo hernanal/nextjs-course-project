@@ -1,4 +1,5 @@
 import EventList from '@/components/events/EventList'
+import NewsletterRegistration from '@/components/input/NewsletterRegistration'
 import { getFeaturedEvents } from '@/helpers/apiUtils'
 import { Event } from '@/types/eventTypes'
 import { GetStaticProps } from 'next'
@@ -19,6 +20,7 @@ const HomePage = (props: HomePageProps) => {
           content="Find a list of featured events here."
         />
       </Head>
+      <NewsletterRegistration />
       <EventList events={events} />
     </div>
   )
