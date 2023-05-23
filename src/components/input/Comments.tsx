@@ -4,7 +4,11 @@ import CommentList from './CommentList'
 import NewComment from './NewComment'
 import classes from './comments.module.css'
 
-function Comments(props) {
+interface CommentsProps {
+  eventId: string
+}
+
+function Comments(props: CommentsProps) {
   const { eventId } = props
 
   const [showComments, setShowComments] = useState(false)
@@ -13,7 +17,11 @@ function Comments(props) {
     setShowComments((prevStatus) => !prevStatus)
   }
 
-  function addCommentHandler(commentData) {
+  function addCommentHandler(commentData: {
+    email: string
+    name: string
+    text: string
+  }) {
     // send data to API
   }
 

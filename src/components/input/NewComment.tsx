@@ -1,19 +1,27 @@
 import { useRef, useState } from 'react'
 import classes from './new-comment.module.css'
 
-function NewComment(props) {
+interface NewCommentProps {
+  onAddComment: (commentData: {
+    email: string
+    name: string
+    text: string
+  }) => void
+}
+
+function NewComment(props: NewCommentProps) {
   const [isInvalid, setIsInvalid] = useState(false)
 
-  const emailInputRef = useRef()
-  const nameInputRef = useRef()
-  const commentInputRef = useRef()
+  const emailInputRef = useRef<HTMLInputElement>(null)
+  const nameInputRef = useRef<HTMLInputElement>(null)
+  const commentInputRef = useRef<HTMLTextAreaElement>(null)
 
-  function sendCommentHandler(event) {
+  function sendCommentHandler(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
 
-    const enteredEmail = emailInputRef.current.value
-    const enteredName = nameInputRef.current.value
-    const enteredComment = commentInputRef.current.value
+    const enteredEmail = emailInputRef.current?.value
+    const enteredName = nameInputRef.current?.value
+    const enteredComment = commentInputRef.current?.value
 
     if (
       !enteredEmail ||
@@ -49,7 +57,7 @@ function NewComment(props) {
       </div>
       <div className={classes.control}>
         <label htmlFor="comment">Your comment</label>
-        <textarea id="comment" rows="5" ref={commentInputRef}></textarea>
+        <textarea id="comment" rows={5} ref={commentInputRef}></textarea>
       </div>
       {isInvalid && <p>Please enter a valid email address and comment!</p>}
       <button>Submit</button>
