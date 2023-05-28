@@ -2,7 +2,7 @@ import classes from './comment-list.module.css'
 
 interface CommentListProps {
   items: {
-    id: string
+    _id: string
     text: string
     name: string
   }[]
@@ -14,7 +14,7 @@ function CommentList(props: CommentListProps) {
   return (
     <ul className={classes.comments}>
       {items.map((item) => (
-        <li key={item.id}>
+        <li key={item._id}>
           <p>{item.text}</p>
           <div>
             By <address>{item.name}</address>

@@ -16,11 +16,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   const client = await MongoClient.connect(
-    'mongodb+srv://hernanal:fRz66rurNMu9LRLo@cluster0.an1k2.mongodb.net/newsletter'
+    'mongodb+srv://hernanal:fRz66rurNMu9LRLo@cluster0.an1k2.mongodb.net/events'
   )
 
   const db = client.db()
-  await db.collection('emails').insertOne({ email })
+  await db.collection('newsletter').insertOne({ email })
 
   client.close()
   // await saveEmail(email)
