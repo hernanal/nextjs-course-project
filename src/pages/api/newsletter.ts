@@ -1,3 +1,4 @@
+import { MongoClient } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -14,7 +15,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     return
   }
 
-  await saveEmail(email)
+  const client = await MongoClient.connect(
+    'mongodb+srv://hernanal:fRz66rurNMu9LRLo@cluster0.an1k2.mongodb.net/newsletter'
+  )
+
+  const db = client.db()
+  await db.collection('emails').insertOne({ email })
+
+  client.close()
+  // await saveEmail(email)
 
   res.status(201).json({ message: 'Signed up!' })
 }
