@@ -1,19 +1,5 @@
-import { MongoClient, Document } from 'mongodb'
+import { connectDatabase, insertDocument } from '@/helpers/dbUtils'
 import { NextApiRequest, NextApiResponse } from 'next'
-
-const connectDatabase = async () => {
-  const client = await MongoClient.connect(
-    'mongodb+srv://hernanal:fRz66rurNMu9LRLo@cluster0.an1k2.mongodb.net/events'
-  )
-
-  return client
-}
-
-const insertDocument = async (client: MongoClient, document: Document) => {
-  const db = client.db()
-  const result = await db.collection('newsletter').insertOne(document)
-  return result
-}
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== 'POST') {
@@ -39,7 +25,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   try {
-    await insertDocument(client, email)
+    await insertDocument(client, 'newsletter', email)
     client.close()
   } catch (error) {
     res.status(500).json({ message: 'Inserting data failed!' })

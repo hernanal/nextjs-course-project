@@ -1,11 +1,8 @@
+import { NewComment } from '@/pages/api/comments/[eventId]'
 import classes from './comment-list.module.css'
 
 interface CommentListProps {
-  items: {
-    _id: string
-    text: string
-    name: string
-  }[]
+  items: NewComment[]
 }
 
 function CommentList(props: CommentListProps) {
@@ -14,7 +11,7 @@ function CommentList(props: CommentListProps) {
   return (
     <ul className={classes.comments}>
       {items.map((item) => (
-        <li key={item._id}>
+        <li key={item._id as any}>
           <p>{item.text}</p>
           <div>
             By <address>{item.name}</address>

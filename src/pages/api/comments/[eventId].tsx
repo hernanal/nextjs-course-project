@@ -1,20 +1,29 @@
-import { MongoClient, ObjectId } from 'mongodb'
+import {
+  connectDatabase,
+  getAllDocuments,
+  insertDocument,
+} from '@/helpers/dbUtils'
+import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 
-interface NewComment {
+export interface NewComment {
   email: string
   name: string
   text: string
   eventId: string | string[] | undefined
-  id?: ObjectId
+  _id?: ObjectId
 }
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const eventId = req.query.eventId
+  let client
 
-  const client = await MongoClient.connect(
-    'mongodb+srv://hernanal:fRz66rurNMu9LRLo@cluster0.an1k2.mongodb.net/events'
-  )
+  try {
+    client = await connectDatabase()
+  } catch (error) {
+    res.status(500).json({ message: 'Connecting to the database failed!' })
+    return
+  }
 
   if (req.method === 'POST') {
     const { email, name, text } = req.body
@@ -28,6 +37,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       text.trim() === ''
     ) {
       res.status(422).json({ message: 'Invalid input.' })
+      client.close()
       return
     }
 
@@ -38,24 +48,30 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       eventId,
     }
 
-    const db = client.db()
-    const result = await db.collection('comments').insertOne(newComment)
+    let result
+    try {
+      result = await insertDocument(client, 'comments', newComment)
+      newComment._id = result.insertedId
 
-    console.log(result)
-
-    newComment.id = result.insertedId
-    res.status(201).json({ message: 'Added comment.', comment: newComment })
+      res.status(201).json({ message: 'Added comment.', comment: newComment })
+    } catch (error) {
+      res.status(500).json({ message: 'Inserting comment failed!' })
+    }
   }
 
   if (req.method === 'GET') {
-    const db = client.db()
-    const comments = await db
-      .collection('comments')
-      .find()
-      .sort({ _id: -1 })
-      .toArray()
-
-    res.status(200).json({ comments })
+    let comments
+    try {
+      comments = await getAllDocuments(
+        client,
+        'comments',
+        { _id: -1 },
+        { eventId }
+      )
+      res.status(200).json({ comments })
+    } catch (error) {
+      res.status(500).json({ message: 'Getting comments failed.' })
+    }
   }
 
   client.close()
